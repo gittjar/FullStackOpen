@@ -129,7 +129,7 @@ app.get('/info', (req, res) => {
       const currentTime = new Date().toString()
       res.send(`
         <div style="background-color: navy; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <h2 style="color: fuchsia;">Phonebook has info for ${personCount} people</h2>
+          <h2 style="color: fuchsia;">Jarno's Phonebook has info for ${personCount} people</h2>
           <span style="font-size: 1.4rem; color: green; background-color: black;">Today is: ${currentTime}</span>
         </div>
       `)

@@ -9,15 +9,15 @@ const blogsRouter = require('./routes/blogs'); // Lisätään blogsRouter
 const Bloglist = require('./models/bloglist');
 const loginRouter = require('./controllers/login');
 const middleware = require('./middleware/middleware');
-const jwt = require('jsonwebtoken'); // Import the jsonwebtoken library
+const jwt = require('jsonwebtoken'); // Import JWT library
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(middleware);
 
-app.use('/api/login', loginRouter);
-app.use('/api/users', usersRouter); // Prefix user-related routes with '/api/users'
+app.use('/api/login', loginRouter); // Käytetään määriteltyä loginRouteria
+app.use('/api/users', usersRouter); // Käytetään määriteltyä usersRouteria
 app.use('/api/blogs', blogsRouter); // Käytetään määriteltyä blogsRouteria
 
 // Connect to MongoDB
@@ -36,7 +36,7 @@ mongoose
 usersRouter(app); // Pass the express app instance
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
-app.use('/api/users', usersRouter); // Prefix user-related routes with '/api/users'
+app.use('/api/users', usersRouter); 
 
 // JWT Token Verification Middleware
 app.use((req, res, next) => {
@@ -65,7 +65,7 @@ app.get('/info', async (req, res) => {
 
     res.send(`
       <div style="background-color: navy; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <h2 style="color: fuchsia;">Bloglist has info for ${blogCount} blogs</h2>
+        <h2 style="color: fuchsia;">Jarno's Bloglist has info for ${blogCount} blogs</h2>
         <h2 style="color: white;">Read blogs: /api/blogs</h2>
         <h2 style="color: fuchsia;">Server Status: Online</h2>
         <h2 style="color: white;">Server Uptime: ${uptimeInSeconds} seconds</h2>

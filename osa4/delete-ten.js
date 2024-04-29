@@ -1,8 +1,8 @@
 require('dotenv').config(); // Load environment variables from .env file
 const mongoose = require('mongoose');
 
-const mongoURI = process.env.MONGODB_URI; // Replace with your MongoDB Atlas URI
-const collectionName = 'Bloglist'; // Replace with your collection name
+const mongoURI = process.env.MONGODB_URI; 
+const collectionName = 'Bloglist'; 
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -16,7 +16,7 @@ db.once('open', async () => {
   console.log('Connected to MongoDB');
 
   try {
-    const Bloglist = require('./models/bloglist'); // Import your Mongoose model
+    const Bloglist = require('./models/bloglist'); // Import Mongoose model
     
     const limit = 10; // Specify the limit
     for (let i = 0; i < limit; i++) {

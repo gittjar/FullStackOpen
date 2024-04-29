@@ -8,7 +8,6 @@ const api = supertest(app);
 
 // Describe your test cases for the Blog API
 describe('Blog API tests', () => {
-  // ... (your existing Blog API tests)
 
   // Describe your test cases for the User API
   describe('User API tests', () => {
