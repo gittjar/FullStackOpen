@@ -51,7 +51,7 @@ function App() {
 
   return (
     <Router>
-      <h2>My Book List App</h2>
+      <h2>My Book List App - Jarno K 2023</h2>
 
       {token ? (
         <>

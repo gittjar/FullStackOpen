@@ -6,7 +6,7 @@ export const getAnecdotes = async () => {
   const response = await axios.get(baseUrl);
   const anecdotes = response.data;
 
-  // Sort anecdotes by votes in descending order
+  // Sorttaus äänten mukaan
   const sortedAnecdotes = anecdotes.sort((a, b) => b.votes - a.votes);
 
   return sortedAnecdotes;

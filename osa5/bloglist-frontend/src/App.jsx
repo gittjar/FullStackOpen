@@ -186,7 +186,7 @@ const App = () => {
     <div className='main'>
       {successMessage && <div className="success-notification">{successMessage}</div>}
       {failureMessage && <div className="failure-notification">{failureMessage}</div>}
-      <h1>Blogs App</h1>
+      <h1>Jarno's Blogs App</h1>
 
       <Router>
         <div>

@@ -2,7 +2,7 @@ const initialState = {
   good: 0,
   ok: 0,
   bad: 0
-}
+} // alustetaan tila
 
 const counterReducer = (state = initialState, action) => {
   console.log(action)

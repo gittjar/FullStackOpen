@@ -1,4 +1,4 @@
-// actions/anecdoteActions.js
+// anecdoteActions.js
 import { vote } from '../reducers/anecdoteSlice';
 import axios from 'axios';
 

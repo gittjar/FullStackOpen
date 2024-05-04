@@ -23,6 +23,10 @@
     {
       "content": "Vantaan Korso on hyvä paikka",
       "id": 9
+    },
+    {
+      "content": "Tämä toimii",
+      "id": 10
     }
   ],
   "persons": [
@@ -37,12 +41,12 @@
       "number": "012-123123"
     },
     {
-      "name": "name ",
+      "name": "Your Name",
       "number": "900900",
       "id": 3
     },
     {
-      "name": "Mikko Mallikas",
+      "name": "Jarno",
       "number": "09-9009400",
       "id": 5
     },
@@ -52,9 +56,14 @@
       "id": 6
     },
     {
-      "name": "Joulupukki",
+      "name": "Uber",
       "number": "0504440422",
       "id": 7
+    },
+    {
+      "name": "Sibelius",
+      "number": "010777",
+      "id": 8
     }
   ]
 }

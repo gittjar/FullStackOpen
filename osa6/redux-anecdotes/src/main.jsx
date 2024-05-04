@@ -21,7 +21,7 @@ root.render(
       <App />
       </ErrorBoundary>
 
-      <div>Jarno K. 11/2023</div>
+      <div>Jarno K. gittjar 11/2023</div>
       <AnecdoteForm />
       <Footer />
     </div>

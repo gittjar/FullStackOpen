@@ -33,13 +33,12 @@ const AnecdoteForm = () => {
 
       setNotification({ type: 'success', message: 'New anecdote created successfully' });
 
-      // You might want to trigger a refetch of your anecdotes here
+     
 
-      event.target.anecdote.value = ''; // Clear the input field after submission
+      event.target.anecdote.value = ''; // set input nollaan
     } catch (error) {
       console.error('Error creating anecdote:', error.message);
       setNotification({ type: 'error', message: error.message });
-      // Handle error, show a notification, etc.
     }
   };
 

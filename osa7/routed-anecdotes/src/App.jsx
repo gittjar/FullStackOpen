@@ -124,7 +124,13 @@ const App = () => {
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: 2,
-    },
+    },    {
+      content: 'Master of the Anecdotes',
+      author: 'Jarno Ke',
+      info: 'http://www.google.com',
+      votes: 10,
+      id: 3,
+    }
   ]);
 
   const [notification, setNotification] = useState('');
@@ -177,7 +183,7 @@ const App = () => {
             {notification}
           </div>
         )}
-        <h1>Software anecdotes</h1>
+        <h1>Jarnos Software anecdotes</h1>
         <Menu />
 
         <Routes>

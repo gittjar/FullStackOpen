@@ -5,6 +5,7 @@ let token = null
 
 const setToken = newToken => {
  // token = `${newToken}`
+ // kovakoodattu token
  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdvZCIsImlkIjoiNjUzZTVjN2MxYWZhZTU2YjcwNmQyZDk0IiwiaWF0IjoxNjk4Nzc4NTE2fQ.NgBb-LbO7TX6gLGXVT8_EG-Er9IufueRUsJjKcpulcA'
 }
 
@@ -31,12 +32,11 @@ const update = async (id, newObject) => {
       headers: { Authorization: token },
     };
 
-    // Assuming that your server supports updating likes via a PUT request
+    // PUT request to update the blog
     const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
 
     if (response.ok) {
-      // If the server responds with the updated blog object,
-      // you can extract the updated likes count from the response
+    
       const updatedBlog = response.data;
       const updatedBlogs = userBlogs.map((blog) =>
         blog.id === updatedBlog.id ? updatedBlog : blog
@@ -48,7 +48,6 @@ const update = async (id, newObject) => {
     }
   } catch (error) {
     console.error('Error updating blog:', error);
-    // Handle the error as needed
   }
 };
 

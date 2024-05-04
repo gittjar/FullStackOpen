@@ -3,16 +3,15 @@ import { combineReducers } from 'redux';
 import anecdoteReducer from './anecdoteReducer';
 import filterReducer from './filterReducer';
 
-// Define your selector function
+// valitse filtteröidyt anekdootit
 export const selectFilteredAnecdotes = (state) => {
   const filter = state.filter;
-  const anecdotes = state.anecdotes.data;
+  const anecdotes = state.anecdotes;
 
   if (!filter) {
     return anecdotes;
   }
 
-  // Apply your filtering logic here
   return anecdotes.filter((anecdote) =>
     anecdote.content.toLowerCase().includes(filter.toLowerCase())
   );
@@ -21,7 +20,7 @@ export const selectFilteredAnecdotes = (state) => {
 const rootReducer = combineReducers({
   anecdotes: anecdoteReducer,
   filter: filterReducer,
-  // Add other reducers if any
+  // yhdistä reducerit
 });
 
 export default rootReducer;

@@ -4,16 +4,17 @@ const Notification = ({ type, message, onClose }) => {
   useEffect(() => {
     if (message) {
       const timeoutId = setTimeout(() => {
-        onClose(); // Call the onClose function to update the state and hide the notification
+        onClose(); // sulje ilmoitus 5 sekunnin kuluttua
       }, 5000);
 
-      return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
+      return () => clearTimeout(timeoutId); // poista timeout
     }
   }, [message, onClose]);
 
   if (!message) return null;
 
   const style = {
+    // ilmoituksen tyyli
     border: 'solid',
     padding: 10,
     width: 320,

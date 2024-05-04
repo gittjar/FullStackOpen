@@ -24,11 +24,11 @@ export const useCountry = (name) => {
         axios
           .get(`https://restcountries.com/v2/name/${name}`)
           .then((response) => {
-            // Check if the response contains data
+            // tarkistetaan, onko vastauksessa dataa
             if (response.data.length > 0) {
               setCountry({ data: response.data[0], found: true });
             } else {
-              // If no data is found, set found to false
+              // jos vastauksessa ei ole dataa, asetetaan found arvoksi false
               setCountry({ found: false });
             }
           })

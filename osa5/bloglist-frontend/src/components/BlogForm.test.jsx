@@ -1,38 +1,61 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import BlogForm from './BlogForm';
+import UserBlogs from './UserBlogs';
 
-it('should render the form with input fields and handle changes and submission', () => {
-  const newBlog = {
-    title: 'My Blog Title',
-    author: 'John Doe',
-    url: 'https://example.com/my-blog',
-  };
-
-  const handleBlogChange = jest.fn();
+test('BlogForm calls the event handler with the right details when a new blog is created', () => {
   const addBlog = jest.fn();
 
-  const { getByText, getByLabelText, getByTestId } = render(
-    <BlogForm newBlog={newBlog} handleBlogChange={handleBlogChange} addBlog={addBlog} />
+  const component = render(
+    <BlogForm addBlog={addBlog} title="Test Title" /> 
   );
 
-  // Check that the form fields are rendered
-  const titleInput = getByLabelText('Title');
-  const authorInput = getByLabelText('Author');
-  const urlInput = getByLabelText('URL');
-  const saveButton = getByText('Save');
+  const input = component.container.querySelector('#title');
+  const form = component.container.querySelector('form');
 
-  // Simulate user input
-  fireEvent.change(titleInput, { target: { value: newBlog.title } });
-  fireEvent.change(authorInput, { target: { value: newBlog.author } });
-  fireEvent.change(urlInput, { target: { value: newBlog.url } });
+  fireEvent.change(input, { target: { value: 'testing of forms could be easier' } });
+  fireEvent.submit(form);
 
-  // Check that handleBlogChange is called with the correct values
-  expect(handleBlogChange).toHaveBeenCalledWith(newBlog);
+  expect(addBlog.mock.calls).toHaveLength(1);
+  expect(addBlog.mock.calls[0][0].title).toBe('testing of forms could be easier');
+});
 
-  // Simulate form submission
-  fireEvent.click(saveButton);
+test('UserBlogs renders blogs and allows interaction', () => {
+  const blogs = [
+    {
+      id: '1',
+      title: 'First blog',
+      author: 'John Doe',
+      url: 'http://example.com/first',
+      likes: 5,
+      user: {
+        username: 'johndoe',
+        name: 'John Doe',
+      },
+    },
+    {
+      id: '2',
+      title: 'Second blog',
+      author: 'Jane Doe',
+      url: 'http://example.com/second',
+      likes: 10,
+      user: {
+        username: 'janedoe',
+        name: 'Jane Doe',
+      },
+    },
+  ];
 
-  // Check that addBlog is called
-  expect(addBlog).toHaveBeenCalled();
+  const component = render(
+    <UserBlogs blogs={blogs} />
+  );
+
+  expect(component.container).toHaveTextContent('First blog');
+  expect(component.container).toHaveTextContent('Second blog');
+
+  const likeButton = component.getByText('I Like this!');
+  fireEvent.click(likeButton);
+
+  expect(component.container).toHaveTextContent('Likes: 6');
 });

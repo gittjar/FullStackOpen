@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useCountry, useField } from './hooks'; // Assuming your hooks file is in the same directory
+import { useCountry, useField } from './hooks'; // käytetään omia hookseja
+import './styles.css';
 
 
 const Country = ({ country }) => {
@@ -40,6 +41,9 @@ const App = () => {
 
   return (
     <div>
+            <h2>Jarnos Country App </h2>
+            <p>Harjoitus 7.7: country hook</p>
+
       <form onSubmit={fetch}>
         <input {...nameInput} />
         <button>find</button>

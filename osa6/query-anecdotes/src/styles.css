@@ -1,5 +1,5 @@
 html {
-    background-color: rgb(225, 249, 216);
+    background-color: rgb(244, 251, 242);
     margin: 1%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: rgba(7, 23, 117, 0.693);
@@ -28,6 +28,8 @@ button {
     margin-top: 2%;
     margin-bottom: 2%;
     margin-right: 1.2%;
+    border: 1px rgb(232, 227, 227) solid;
+
 
 }
 

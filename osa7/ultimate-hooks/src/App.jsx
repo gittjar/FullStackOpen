@@ -14,6 +14,7 @@ const App = () => {
   const number = useField('text');
   const [notification, setNotification] = useState(null);
 
+  // käytetään omia hookseja ja resursseja
   const [notes, noteService] = useResource('http://localhost:3005/notes');
   const [persons, personService] = useResource('http://localhost:3005/persons');
 
@@ -32,7 +33,7 @@ const App = () => {
 const handleNoteSubmit = (event) => {
   event.preventDefault();
 
-  // Ensure content is not empty and has at least 5 characters
+  // väärä pituus
   if (!content.value || content.value.length < 5) {
     setNotification({ type: 'error', message: 'Too short! Give at least 5 characters long note!' });
     return;
@@ -46,13 +47,13 @@ const handleNoteSubmit = (event) => {
 const handlePersonSubmit = (event) => {
   event.preventDefault();
 
-  // Ensure name and number are not empty
+  // jos nimi tai numero puuttuu
   if (!name.value || !number.value) {
     setNotification({ type: 'error', message: 'Name and number are required for creating a person' });
     return;
   }
 
-  // Ensure name has at least 5 characters
+  // väärä pituus
   if (name.value.length < 5) {
     setNotification({ type: 'error', message: 'Name must have at least 5 characters' });
     return;
@@ -64,7 +65,7 @@ const handlePersonSubmit = (event) => {
 };
 
 
-  // JSX structure for rendering the component
+  // renderöidään komponentit
   return (
   <div>
           <div className='header'>
@@ -79,6 +80,8 @@ const handlePersonSubmit = (event) => {
       <h3 className="font:antialiased@dark f:purple-40 f:2rem text-shadow:0|4|2">Ultimate Hooks App!</h3>
       <h3 className="font:antialiased@dark f:purple-50 f:2rem text-shadow:0|2|2">Ultimate Hooks App!</h3>
       <h3 className="font:antialiased@dark f:purple-60 f:2rem text-shadow:0|0|2">Ultimate Hooks App!</h3>
+      <h3 className="font:antialiased@dark f:pink-70 f:1.5rem text-shadow:0|0|1">Jarno 2023</h3>
+
 
     </aside>
    

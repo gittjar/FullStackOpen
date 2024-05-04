@@ -15,47 +15,54 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log('Fetching data...');
-        const response = await fetch('http://localhost:3001/anecdotes');
-        console.log('Response:', response);
-
-        if (!response.ok) {
-          const error = new Error('Failed to fetch data');
-          console.error('Error fetching data:', error);
-          throw error;
-        }
-
-        const data = await response.json();
-        console.log('Data:', data);
-
-        // Convert the data object into an array
-        const anecdotesArray = Object.values(data);
-
-        // Dispatch appendAnecdote for each individual anecdote
-        anecdotesArray.forEach((anecdote) => dispatch(appendAnecdote(anecdote)));
-
-        // Set loading to false and clear error after fetching data
-        setLoading(false);
-        setError(null);
-      } catch (error) {
+  const fetchData = async () => {
+    try {
+      console.log('Fetching data...');
+      const response = await fetch('http://localhost:3001/anecdotes');
+      console.log('Response:', response);
+  
+      if (!response.ok) {
+        const error = new Error('Failed to fetch data');
         console.error('Error fetching data:', error);
-        setError(error.message);
+        throw error;
       }
-    };
+  
+      const data = await response.json();
+      console.log('Data:', data);
+  
+      // Convert the data object into an array
+      const anecdotesArray = Object.values(data);
+      console.log('Anecdotes array:', anecdotesArray);
+  
+      // Dispatch appendAnecdote for each individual anecdote
+      anecdotesArray.forEach((anecdote) => dispatch(appendAnecdote(anecdote)));
+  
+      // Set loading to false and clear error after fetching data
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError(error.message);
+    }
+  };
+  
 
+  
+  console.log('Filtered anecdotes:', filteredAnecdotes);
+
+
+
+  useEffect(() => {
     fetchData();
   }, [dispatch]);
 
-  useEffect(() => {
-    // Update the local state whenever filteredAnecdotes changes
-    if (!loading) {
-      setLoading(true);
-      fetchData();
-    }
-  }, [filteredAnecdotes]);
+useEffect(() => {
+  // Update the local state whenever filteredAnecdotes changes
+  if (!loading) {
+    setLoading(true);
+    fetchData();
+  }
+}, [filteredAnecdotes]);
 
   const handleVote = (id) => {
     dispatch(voteAsync(id));
@@ -81,10 +88,10 @@ const App = () => {
   return (
     <div>
       
-      <h2>Anecdotes - Anecdote Web App</h2>
+      <h2>Anekdootit - Anecdote Web App</h2>
       
       <div>
-        <div>Filter:</div>
+        <div>Filteri:</div>
         <input type="text" onChange={handleFilterChange} />
       </div>
       

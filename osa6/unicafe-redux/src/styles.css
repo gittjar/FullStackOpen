@@ -1,13 +1,15 @@
 .main {
     background-color: azure;
-    padding: 1%;
+    padding: 2%;
     border-radius: 10px;
     border: 1px solid rgb(2, 86, 134);
     width: fit-content;
+    margin: 5rem auto;
 }
 
 h5 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.3rem;
 }
 
 button {

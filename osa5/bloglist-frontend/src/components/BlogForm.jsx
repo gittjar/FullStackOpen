@@ -4,8 +4,9 @@ const BlogForm = ({ newBlog, handleBlogChange, addBlog }) => {
   return (
     <form onSubmit={addBlog}>
       <div>
-        Title<br/>
+        <label htmlFor="title">Title</label><br/>
         <input
+          id="title"
           type="text"
           name="title"
           value={newBlog.title}
@@ -13,8 +14,9 @@ const BlogForm = ({ newBlog, handleBlogChange, addBlog }) => {
         />
       </div>
       <div>
-        Author<br/>
+        <label htmlFor="author">Author</label><br/>
         <input
+          id="author"
           type="text"
           name="author"
           value={newBlog.author}
@@ -22,8 +24,9 @@ const BlogForm = ({ newBlog, handleBlogChange, addBlog }) => {
         />
       </div>
       <div>
-        URL<br/>
+        <label htmlFor="url">URL</label><br/>
         <input
+          id="url"
           type="text"
           name="url"
           value={newBlog.url}
@@ -31,8 +34,9 @@ const BlogForm = ({ newBlog, handleBlogChange, addBlog }) => {
         />
       </div>
       <div>
-        LIKES<br/>
+        <label htmlFor="likes">LIKES</label><br/>
         <input
+          id="likes"
           type="number"
           name="likes"
           value={newBlog.likes = 0}
