@@ -68,7 +68,7 @@ const patients: Array<Patient> = [
             {
                 "type": "Hospital",
                 "date": "2022-03-01",
-                "specialist": "Dr. Dolittle",
+                "specialist": "Nurse Dolittle",
                 "description": "Hospital visit for a minor illness",
                 "discharge": {
                     "date": "2022-03-02",
@@ -109,7 +109,7 @@ const patients: Array<Patient> = [
             {
                 "type": "Hospital",
                 "date": "2022-01-01",
-                "specialist": "Dr. Sealegs",
+                "specialist": "Tri. Sealegs",
                 "description": "Hospital visit for scurvy",
                 "discharge": {
                     "date": "2022-01-02",
@@ -158,7 +158,7 @@ const patients: Array<Patient> = [
             {
                 "type": "Hospital",
                 "date": "2022-01-01",
-                "specialist": "Dr. Öetcer",
+                "specialist": "Dr. Oetker",
                 "description": "Hospital visit",
                 "discharge": {
                     "date": "2022-01-02",

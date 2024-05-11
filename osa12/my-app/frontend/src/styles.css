@@ -54,7 +54,7 @@ h1, h3 {
 .product-card:hover {
     background-color: rgb(48, 4, 48);
     color: #fff;
-    border: 1px solid #fff;
+    border: 0;
 }
 
 .info-text {

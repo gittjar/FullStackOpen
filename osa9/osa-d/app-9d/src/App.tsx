@@ -26,6 +26,7 @@ interface CoursePartBackground extends CoursePartBase {
   kind: "background"
 }
 
+
 type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground;
 
 const courseParts: CoursePart[] = [
@@ -63,7 +64,7 @@ const courseParts: CoursePart[] = [
 ];
 
 const App: React.FC = () => {
-  const courseName = "Half Stack application development";
+  const courseName = "Half Stack application development - Jarno 2024";
 
   return (
     <div>

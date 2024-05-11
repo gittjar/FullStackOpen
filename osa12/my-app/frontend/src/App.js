@@ -19,8 +19,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <h1>Products </h1>
-      <h3>Exercise 12.21 and 12.22</h3>
+      <h1>Jarnon keittiö</h1>
+      <h3>Tehtävät 12.21 & 12.22</h3>
+      <h5>OSA 12 - Docker</h5>
+
       </header>
       <div className="product-grid">
         {products.map(product => (

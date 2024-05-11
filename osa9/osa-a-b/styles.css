@@ -5,14 +5,14 @@ body {
     padding: 20px;
 }
 
-label, input, button, #result {
+label, input, #result {
     display: block;
     margin-bottom: 20px;
 }
 
-input, button, #result {
+input, #result {
     width: 100%;
-    max-width: 600px;
+    max-width: 40%;
     border: 2px solid #000000; /* black */
     padding: 10px;
 }
@@ -20,7 +20,10 @@ input, button, #result {
 button {
     cursor: pointer;
     background-color: #000000; /* black */
+    padding: 0.8rem;
     color: #e8f5e9; /* light green */
+    margin-bottom: 10px;
+    border: 0;
 }
 
 #result {

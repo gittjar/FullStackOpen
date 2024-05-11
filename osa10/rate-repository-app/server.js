@@ -1,7 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server');
 const repositories = require('./repositories');
 
-// Define your type definitions
+// tyypit apollo-serverin käyttöön
 const typeDefs = gql`
   type Repository {
     id: ID!
@@ -49,7 +49,7 @@ const typeDefs = gql`
 `;
 
 
-// Define your resolvers
+// resolvers apollo-serverin käyttöön
 const resolvers = {
   Query: {
     hello: () => 'Hei maailma!',
@@ -67,10 +67,10 @@ const resolvers = {
 
   Mutation: {
     authenticate: (root, args) => {
-      // Here you should check the credentials and return an access token.
-      // This token should be unique to the user and stored to the database.
+      // tsekkaa käyttäjän tiedot ja palauta token
+      // tämä pitää olla uniiikki jokaiselle käyttäjälle
       if (args.credentials.username === 'username' && args.credentials.password === 'password') {
-        return { accessToken: 'TESTI-token' };
+        return { accessToken: 'token--TESTI' };
       } else {
         throw new Error('Invalid credentials');
       }
@@ -78,10 +78,10 @@ const resolvers = {
   },
 };
 
-// Initialize the Apollo Server
+// serverin luonti
 const server = new ApolloServer({ typeDefs, resolvers });
 
-// Start the server
+// serverin käynnistys
 server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
+  console.log(`🚀 Serveri toiminnassa ! ---> ${url}`);
 });

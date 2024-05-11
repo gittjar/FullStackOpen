@@ -50,7 +50,7 @@ const SignIn = () => {
   const handleSubmit = async () => {
     try {
       const result = await authenticate({ variables: { credentials: { username, password } } });
-      setMessage('Login successful');
+      setMessage('Login OK!');
       console.log(result.data.authenticate.accessToken);
     } catch (error) {
       setMessage('Login failed');
@@ -64,13 +64,13 @@ const SignIn = () => {
         style={styles.input}
         value={username}
         onChangeText={setUsername}
-        placeholder="Username"
+        placeholder="username"
       />
       <TextInput
         style={styles.input}
         value={password}
         onChangeText={setPassword}
-        placeholder="Password"
+        placeholder="password"
         secureTextEntry
       />
       <Pressable onPress={handleSubmit}>

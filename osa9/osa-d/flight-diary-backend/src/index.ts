@@ -11,7 +11,7 @@ const PORT = 3001;
 
 app.get('/ping', (_req, res) => {
   console.log('someone pinged here : ' + Date());
-  res.send('pong');
+  res.send('pong .. Tänään on : ' + Date());
 });
 
 app.use('/api/diaries', diaryRouter);

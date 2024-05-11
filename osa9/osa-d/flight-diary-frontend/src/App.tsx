@@ -51,7 +51,7 @@ const App: React.FC = () => {
     <div>
       <section className='headerbox'>
         {errorMessage && <article className='error-message'>Error: {errorMessage}</article>}
-      <h1>My Flight Diary</h1>
+      <h1>Jarno's Flight Diary 2024</h1>
       </section>
 
     <section className='main'>

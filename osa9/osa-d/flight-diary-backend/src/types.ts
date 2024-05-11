@@ -6,7 +6,7 @@ export enum Weather {
   Windy = 'windy',
   Snowy = 'snowy',
   Freezing = 'freezing'
-}
+} // arvot voivat olla enumissa esim. kuvaavia sanoja, mutta ne voivat olla myös numeroita, kuten esim. 0, 1, 2, ...
 
 export enum Visibility {
   Great = 'great',
