@@ -3,7 +3,7 @@ const router = express.Router();
 const Record = require('./models/record');
 
 router.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('This is recordbase backend!');
 });
 
 router.post('/records', async (req, res) => {
