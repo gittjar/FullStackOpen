@@ -10,5 +10,10 @@ services:
       - MONGO_URL=mongodb://mongo:27017/recordbase
   mongo:
     image: mongo:latest
+    command: ["mongod", "--quiet", "--logpath", "/dev/null"]
     ports:
       - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+    logging:
+      driver: "none"

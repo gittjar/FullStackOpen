@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const routes = require('./routes');
 const app = express();
 const port = 8080;
 
@@ -13,17 +14,8 @@ db.once('open', function() {
   console.log('Connected successfully to MongoDB server');
 });
 
-const recordSchema = new mongoose.Schema({
-  recordname: String,
-  artist: String,
-  year: Number
-});
-
-const Record = mongoose.model('Record', recordSchema);
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use(express.json());
+app.use('/', routes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
