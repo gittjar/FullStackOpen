@@ -21,4 +21,18 @@ router.get('/records', async (req, res) => {
   res.send(records);
 });
 
+router.delete('/records/:id', async (req, res) => {
+  try {
+    const record = await Record.findByIdAndDelete(req.params.id);
+
+    if (!record) {
+      return res.status(404).send();
+    }
+
+    res.send(record);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
