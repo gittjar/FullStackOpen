@@ -7,6 +7,17 @@ h3,h2,p {
     color: #c903cd;
 }
 
+select {
+    padding: 10px;
+    border: 0;
+    font-size: 1.2rem;
+    background-color: #3e0142;
+    color: #c903cd;
+    text-decoration: none;
+    border-left: 2px solid #c903cd;
+    margin-bottom: 5px;
+}
+
 input {
     padding: 10px;
     border: 0;

@@ -78,7 +78,7 @@ function BooksList() {
             <h4>{published} - {title}</h4>
             <p>Author: {author ? author.name : 'Unknown'}</p>
             <p>Born: {author ? author.born : 'Unknown'}</p>
-            <button onClick={() => handleDelete(title)}>Delete</button>
+            <button onClick={() => handleDelete(title)}>Poista</button>
           </section>
         ))}
       </div>
