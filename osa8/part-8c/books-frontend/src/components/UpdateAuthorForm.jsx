@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMutation, useQuery, gql } from '@apollo/client';
 
 const EDIT_AUTHOR = gql`
@@ -31,7 +31,7 @@ function UpdateAuthorForm() {
   const { loading, error, data } = useQuery(ALL_AUTHORS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error</p>;
 
   const handleSubmit = (event) => {
     event.preventDefault();

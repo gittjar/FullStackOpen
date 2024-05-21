@@ -7,6 +7,10 @@ h3,h2,p {
     color: #c903cd;
 }
 
+.icons {
+  margin: 0.2rem;
+}
+
 select {
     padding: 10px;
     border: 0;

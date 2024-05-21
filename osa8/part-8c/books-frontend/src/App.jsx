@@ -6,6 +6,10 @@ import BooksList from './components/BooksList';
 import LoginForm from './components/LoginForm';
 import AddBookForm from './components/AddBookForm';
 import UpdateAuthorForm from './components/UpdateAuthorForm';
+import { ArrowRight } from 'react-bootstrap-icons';
+import { Check2 } from 'react-bootstrap-icons';
+
+
 
 // Initialize Apollo Client
 const client = new ApolloClient({
@@ -56,10 +60,11 @@ function App() {
       {token ? (
         <>
           <nav>
-            <Link to="/show-books"><button>Show Books</button></Link>
-            <Link to="/add-book"><button>Add Book</button></Link>
-            <Link to="/update-author"><button>Update Author</button></Link>
-            <button onClick={handleLogout}>Logout</button>
+            <Link to="/show-books"><button>Show Books <ArrowRight />
+              </button></Link>
+            <Link to="/add-book"><button>Add Book <Check2 color="yellow" size={14} /></button></Link>
+            <Link to="/update-author"><button>Update Author <ArrowRight /></button></Link>
+            <button onClick={handleLogout}>Logout <ArrowRight /></button>
           </nav>
 
           <p>Hello, {username}! Good to see you. Your favorite genre is {favoriteGenre}.</p>
