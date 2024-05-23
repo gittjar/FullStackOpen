@@ -27,6 +27,10 @@
     {
       "content": "Tämä toimii",
       "id": 10
+    },
+    {
+      "content": "Tämä on testi",
+      "id": 11
     }
   ],
   "persons": [
@@ -64,6 +68,11 @@
       "name": "Sibelius",
       "number": "010777",
       "id": 8
+    },
+    {
+      "name": "Joku Nimi",
+      "number": "0405555",
+      "id": 9
     }
   ]
 }

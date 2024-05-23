@@ -22,7 +22,7 @@ export const useCountry = (name) => {
     useEffect(() => {
       if (name) {
         axios
-          .get(`https://restcountries.com/v2/name/${name}`)
+          .get(`https://restfulcountries.com/api/v1/countries/${name}`)
           .then((response) => {
             // tarkistetaan, onko vastauksessa dataa
             if (response.data.length > 0) {

@@ -3,7 +3,7 @@
     {
       "content": "Ei tippa tapa ja ämpäriin ei huku",
       "id": 33312,
-      "votes": 19020
+      "votes": 1
     },
     {
       "content": "Hiljaa hyvä tulee",
@@ -33,7 +33,7 @@
     {
       "content": "Ei kannata mennä merta edemmäs kalaan",
       "id": 42421,
-      "votes": 120
+      "votes": 123
     },
     {
       "content": "Ei auta itku markkinoilla",
@@ -43,12 +43,17 @@
     {
       "content": "Ei pidä tehdä kärpäsestä härkästä",
       "id": 12345,
-      "votes": 121
+      "votes": 122
     },
     {
       "content": "Ei ole kaikki kotona",
       "id": 67890,
       "votes": 0
+    },
+    {
+      "content": "Random Anecdote",
+      "votes": 28,
+      "id": 44424
     }
   ]
 }
