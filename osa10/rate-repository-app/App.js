@@ -6,7 +6,7 @@ import AuthStorageContext from './contexts/AuthStorageContext';
 import { ApolloProvider } from '@apollo/client';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { NativeRouter, Route, Routes, Link, Switch, Redirect } from "react-router-native";
+import { NativeRouter, Route, Routes } from "react-router-native";
 
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
@@ -14,7 +14,7 @@ import AppBar from './components/AppBar';
 import RepositoryList from './components/RepositoryList';
 import SignIn from './components/SignIn';
 import TestComponent from './components/TestComponent';
-
+import Home from './components/Home';
 
 const authStorage = new AuthStorage();
 const httpLink = createHttpLink({
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
 
 const authLink = setContext(async (_, { headers }) => {
   const accessToken = await authStorage.getAccessToken();
@@ -56,6 +55,7 @@ export default function App() {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/" element={<RepositoryList />} />
               <Route path="/test" element={<TestComponent />} />
+              <Route path="/home" element={<Home />} />
             </Routes>
           </NativeRouter>
           <StatusBar style="auto" />

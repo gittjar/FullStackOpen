@@ -86,7 +86,8 @@ Osa 10
 <br>
 cd osa10/rate-repository-app<br>
 	node server.js<br>
-	expo start<br>
+	expo start<br> / <br>
+	npx expo start<br>
 	w (open web)<br>
     <hr>
 Osa 11 (tämä tehty Azurella)

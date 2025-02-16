@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, Pressable, Text, TextInput } from 'react-native';
 import { useMutation, gql } from '@apollo/client';
+import { useNavigate } from 'react-router-native';
+import AuthStorageContext from '../contexts/AuthStorageContext';
 
 const AUTHENTICATE = gql`
   mutation Authenticate($credentials: AuthenticateInput) {
@@ -46,12 +48,16 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [authenticate, { data }] = useMutation(AUTHENTICATE);
+  const navigate = useNavigate();
+  const authStorage = useContext(AuthStorageContext);
 
   const handleSubmit = async () => {
     try {
       const result = await authenticate({ variables: { credentials: { username, password } } });
+      const accessToken = result.data.authenticate.accessToken;
+      await authStorage.setAccessToken(accessToken);
       setMessage('Login OK!');
-      console.log(result.data.authenticate.accessToken);
+      navigate('/home');
     } catch (error) {
       setMessage('Login failed');
       console.error(error);

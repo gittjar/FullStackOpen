@@ -15,8 +15,6 @@ const ME = gql`
   }
 `;
 
-
-
 const { width } = Dimensions.get('window');
 
 let appBarHeight = 100;
@@ -24,12 +22,10 @@ let paddingLeft = 80;
 let fontSize = 24;
 
 if (width < 321) {
-  // Smaller devices like iPhone 5/SE
   appBarHeight = 60;
   paddingLeft = 10;
   fontSize = 18;
 } else if (width <= 768) {
-  // Medium devices like tablets
   appBarHeight = 70;
   paddingLeft = 70;
   fontSize = 22;
@@ -111,7 +107,10 @@ const AppBar = () => {
       <Text style={styles.title}>Repositories</Text>
       <ScrollView horizontal>
         {data && data.me ? (
-          <SignOutTab />
+          <>
+            <SignOutTab />
+            <HoverableLink to="/home">Home</HoverableLink>
+          </>
         ) : (
           <HoverableLink to="/signin">Sign In</HoverableLink>
         )}
