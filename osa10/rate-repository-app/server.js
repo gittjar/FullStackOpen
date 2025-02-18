@@ -1,7 +1,15 @@
 const { ApolloServer, gql } = require('apollo-server');
 const repositories = require('./repositories');
 
-// tyypit apollo-serverin käyttöön
+// Mock user data
+const users = [
+  { id: '1', username: 'username' },
+];
+
+// Function to get user by ID
+const getUserById = (id) => users.find(user => user.id === id);
+
+// GraphQL type definitions
 const typeDefs = gql`
   type Repository {
     id: ID!
@@ -45,11 +53,11 @@ const typeDefs = gql`
 
   type Mutation {
     authenticate(credentials: AuthenticateInput): AuthenticateResult
+    logout: Boolean
   }
 `;
 
-
-// resolvers apollo-serverin käyttöön
+// GraphQL resolvers
 const resolvers = {
   Query: {
     hello: () => 'Hei maailma!',
@@ -58,30 +66,41 @@ const resolvers = {
         node: repo,
       })),
     }),
-
     me: (root, args, context) => {
-      const userId = context.user.id;
-      return getUserById(userId); 
+      const userId = context.user ? context.user.id : null;
+      return userId ? getUserById(userId) : null;
     },
   },
-
   Mutation: {
     authenticate: (root, args) => {
-      // tsekkaa käyttäjän tiedot ja palauta token
-      // tämä pitää olla uniiikki jokaiselle käyttäjälle
-      if (args.credentials.username === 'username' && args.credentials.password === 'password') {
+      const { username, password } = args.credentials;
+      const user = users.find(user => user.username === username && password === 'password');
+      if (user) {
         return { accessToken: 'token--TESTI' };
       } else {
         throw new Error('Invalid credentials');
       }
     },
+    logout: () => {
+      // No server-side action needed for logout in this mock setup
+      return true;
+    },
   },
 };
 
-// serverin luonti
-const server = new ApolloServer({ typeDefs, resolvers });
+// Apollo Server setup
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    // Mock authentication context
+    const token = req.headers.authorization || '';
+    const user = token === 'Bearer token--TESTI' ? users[0] : null;
+    return { user };
+  },
+});
 
-// serverin käynnistys
+// Start the server
 server.listen().then(({ url }) => {
-  console.log(`🚀 Serveri toiminnassa ! ---> ${url}`);
+  console.log(`🚀 Server ready at ${url}`);
 });
