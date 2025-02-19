@@ -1,46 +1,42 @@
-const { ApolloServer } = require('@apollo/server');
-const { startStandaloneServer } = require('@apollo/server/standalone');
-const fs = require('fs');
+const express = require('express');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+const authenticateJWT = require('./middleware/authenticateJWT');
+const repositoryRoutes = require('./routes/repositories');
 
-// Load repositories from JSON file
-const repositories = JSON.parse(fs.readFileSync('repositories.json', 'utf8'));
+dotenv.config();
 
-const typeDefs = `
-  type Repository {
-    id: ID!
-    fullName: String!
-    description: String!
-    language: String!
-    forksCount: Int!
-    stargazersCount: Int!
-    ratingAverage: Int!
-    reviewCount: Int!
-    ownerAvatarUrl: String!
+const app = express();
+const PORT = process.env.PORT;
+
+// In-memory user data
+const users = [
+  {
+    id: '1',
+    username: 'user1',
+    password: 'password' // plain text for simplicity
   }
+];
 
-  type Query {
-    repositoryCount: Int!
-    allRepositories: [Repository!]!
-    findRepository(id: ID!): Repository
+app.use(bodyParser.json());
+
+// Login route
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
+    const accessToken = jwt.sign({ username: user.username, id: user.id }, process.env.SECRET_KEY);
+    res.json({ accessToken });
+  } else {
+    res.send('Username or password incorrect');
   }
-`;
-
-const resolvers = {
-  Query: {
-    repositoryCount: () => repositories.length,
-    allRepositories: () => repositories,
-    findRepository: (root, args) =>
-      repositories.find(repo => repo.id === args.id)
-  }
-};
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
 });
 
-startStandaloneServer(server, {
-  listen: { port: 4000 },
-}).then(({ url }) => {
-  console.log(`Server ready at ${url}`);
+// Use repository routes
+app.use('/repositories', repositoryRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
