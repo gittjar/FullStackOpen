@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 const authenticateJWT = require('./middleware/authenticateJWT');
 const repositoryRoutes = require('./routes/repositories');
 
@@ -10,16 +12,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-// In-memory user data
+app.use(bodyParser.json());
+
 const users = [
-  {
-    id: '1',
-    username: 'user1',
-    password: 'password' // plain text for simplicity
-  }
+  { id: 1, username: 'user1', password: 'password1' },
+  { id: 2, username: 'user2', password: 'password2' }
 ];
 
-app.use(bodyParser.json());
+// Local time
+app.get('/time', (req, res) => {
+  const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    second: '2-digit' 
+  };
+  const localTime = new Date().toLocaleString('fi-FI', options);
+  res.send(localTime);
+});
 
 // Login route
 app.post('/login', (req, res) => {
