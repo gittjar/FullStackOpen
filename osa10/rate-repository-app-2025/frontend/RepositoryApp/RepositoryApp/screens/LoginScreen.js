@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import axios from 'axios';
+import Config from '../components/Config';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -9,12 +10,17 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/login', { username, password });
-      const { accessToken } = response.data;
-      setMessage('Login OK!');
-      navigation.navigate('Home', { token: accessToken });
+      const response = await axios.post(`${Config.baseURL}/login`, { username, password });
+      if (response.status === 200 && response.data.accessToken) {
+        const { accessToken } = response.data;
+        setMessage('Login OK!');
+        console.log('Token received:', accessToken); // Log the token
+        navigation.navigate('Home', { token: accessToken });
+      } else {
+        setMessage('Login failed: Invalid username or password');
+      }
     } catch (error) {
-      setMessage('Login failed');
+      setMessage('Login failed: Invalid username or password');
       console.error('Login failed', error);
     }
   };

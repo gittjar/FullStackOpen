@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
+import Config from '../components/Config';
 
 const TimeScreen = () => {
   const [time, setTime] = useState('');
@@ -8,7 +9,7 @@ const TimeScreen = () => {
   useEffect(() => {
     const fetchTime = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/time');
+        const response = await axios.get(`${Config.baseURL}/time`);
         setTime(response.data);
       } catch (error) {
         console.error('Failed to fetch time', error);

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const cors = require('cors'); 
+const fs = require('fs');
 const authenticateJWT = require('./middleware/authenticateJWT');
 const repositoryRoutes = require('./routes/repositories');
 
@@ -18,6 +19,10 @@ const users = [
   { id: 1, username: 'user1', password: 'password1' },
   { id: 2, username: 'user2', password: 'password2' }
 ];
+
+// Load repositories data
+let repositories = JSON.parse(fs.readFileSync('repositories.json', 'utf8'));
+console.log('Loaded repositories:', repositories);
 
 // Local time
 app.get('/time', (req, res) => {
@@ -45,6 +50,40 @@ app.post('/login', (req, res) => {
   } else {
     res.send('Username or password incorrect');
   }
+});
+
+// User likelist feature
+let userLikelists = {}; // Store user likelists in memory
+
+// Hard-code adding repositories to a specific user's likelist when the server starts
+userLikelists[1] = ['jaredpalmer.formik', 'rails.rails']; // Use user ID 1
+
+console.log('Initial user likelists:', userLikelists);
+
+app.post('/likelist/:id', authenticateJWT, (req, res) => {
+  const userId = req.user.id;
+  const repositoryId = req.params.id;
+
+  if (!userLikelists[userId]) {
+    userLikelists[userId] = [];
+  }
+
+  if (!userLikelists[userId].includes(repositoryId)) {
+    userLikelists[userId].push(repositoryId);
+  }
+
+  res.status(200).json({ message: 'Repository added to likelist', likelist: userLikelists[userId] });
+});
+
+app.get('/likelist', authenticateJWT, (req, res) => {
+  const userId = req.user.id;
+  const userLikelist = userLikelists[userId] || [];
+  console.log('User likelist:', userLikelist);
+
+  const likedRepositories = repositories.filter(repo => userLikelist.includes(repo.id));
+  console.log('Liked repositories:', likedRepositories);
+
+  res.json(likedRepositories);
 });
 
 // Use repository routes

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import axios from 'axios';
 import theme from '../components/theme';
+import Config from '../components/Config';
 
 const styles = StyleSheet.create({
   container: {
@@ -75,7 +76,7 @@ const RepositoriesScreen = () => {
   useEffect(() => {
     const fetchRepositories = async () => {
       try {
-        const response = await axios.get('http://192.168.1.225:4000/repositories'); // Replace with your machine's IP address
+        const response = await axios.get(`${Config.baseURL}/repositories`); // Use Config.baseURL
         setRepositories(response.data);
       } catch (error) {
         console.error('Failed to fetch repositories', error);

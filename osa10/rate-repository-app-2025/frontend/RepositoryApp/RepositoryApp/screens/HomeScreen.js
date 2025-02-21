@@ -1,15 +1,105 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import axios from 'axios';
+import Config from '../components/Config';
+import theme from '../components/theme';
 
-const HomeScreen = ({ navigation }) => {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#FAFAFE',
+    alignItems: 'center',
+  },
+  card: {
+    backgroundColor: 'white',
+    width: '100%',
+    maxWidth: 700,
+    padding: 15,
+    marginTop: 10,
+    marginBottom: 5,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    fontFamily: theme.fonts.main,
+  },
+  separator: {
+    height: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 15,
+  },
+  details: {
+    flex: 1,
+  },
+  counts: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  count: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  language: {
+    backgroundColor: '#0366d6',
+    color: 'white',
+    padding: 5,
+    borderRadius: 5,
+    alignSelf: 'flex-start',
+    marginTop: 5,
+  },
+  fullName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  description: {
+    fontSize: 14,
+    color: '#555',
+  },
+});
+
+const ItemSeparator = () => <View style={styles.separator} />;
+
+const formatCount = (count) => {
+  if (count >= 1000) {
+    return (count / 1000).toFixed(1) + 'k';
+  }
+  return count;
+};
+
+const HomeScreen = ({ route, navigation }) => {
   const [userData, setUserData] = useState(null);
+  const token = route?.params?.token;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/likelist');
+        if (!token) {
+          console.error('Token is missing');
+          return;
+        }
 
+        console.log('Token received in HomeScreen:', token); // Log the token
+
+        const response = await axios.get(`${Config.baseURL}/likelist`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUserData(response.data);
       } catch (error) {
         console.error('Failed to fetch user data', error);
@@ -17,29 +107,39 @@ const HomeScreen = ({ navigation }) => {
     };
 
     fetchUserData();
-  }, []);
+  }, [token]);
 
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
       {userData ? (
-        <View>
-          <Text>Welcome, {userData.username}</Text>
-          <Text>Email: {userData.email}</Text>
-        </View>
+        <FlatList
+          data={userData}
+          ItemSeparatorComponent={ItemSeparator}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
+                <View style={styles.details}>
+                  <Text style={styles.fullName}>{item.fullName}</Text>
+                  <Text style={styles.description}>{item.description}</Text>
+                  <Text style={styles.language}>{item.language}</Text>
+                </View>
+              </View>
+              <View style={styles.counts}>
+                <Text style={styles.count}>{formatCount(item.forksCount)} Forks</Text>
+                <Text style={styles.count}>{formatCount(item.stargazersCount)} Stars</Text>
+                <Text style={styles.count}>{formatCount(item.ratingAverage)} Rating</Text>
+                <Text style={styles.count}>{formatCount(item.reviewCount)} Reviews</Text>
+              </View>
+            </View>
+          )}
+        />
       ) : (
-        <Text>Loading user data...</Text>
+        <Text>Loading...</Text>
       )}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default HomeScreen;
