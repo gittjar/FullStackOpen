@@ -30,7 +30,7 @@
       "stargazersCount": 456,
       "ratingAverage": 78,
       "reviewCount": 9,
-      "ownerAvatarUrl": "https://cdn.dummyjson.com/product-images/26/3.jpg"
+      "ownerAvatarUrl": "https://raw.githubusercontent.com/devicons/devicon/master/icons/dot-net/dot-net-original-wordmark.svg"
     },
     {
       "id": "wilhelm.cobol",
@@ -41,7 +41,7 @@
       "stargazersCount": 1011,
       "ratingAverage": 89,
       "reviewCount": 12,
-      "ownerAvatarUrl": "https://cdn.dummyjson.com/product-images/7/1.jpg"
+      "ownerAvatarUrl": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg"
     },
   {
     "id": "django.django",

@@ -8,7 +8,7 @@ const TimeScreen = () => {
   useEffect(() => {
     const fetchTime = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/time');
+        const response = await axios.get('http://localhost:4000/time');
         setTime(response.data);
       } catch (error) {
         console.error('Failed to fetch time', error);

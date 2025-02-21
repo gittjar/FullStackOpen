@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Navbar from '../components/Navbar';
 import axios from 'axios';
 
 const HomeScreen = ({ navigation }) => {
@@ -9,7 +8,8 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/user');
+        const response = await axios.get('http://localhost:4000/likelist');
+
         setUserData(response.data);
       } catch (error) {
         console.error('Failed to fetch user data', error);

@@ -2,8 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const path = require('path');
+const cors = require('cors'); 
 const authenticateJWT = require('./middleware/authenticateJWT');
 const repositoryRoutes = require('./routes/repositories');
 
@@ -13,6 +12,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
+app.use(cors()); // Use the cors middleware
 
 const users = [
   { id: 1, username: 'user1', password: 'password1' },
