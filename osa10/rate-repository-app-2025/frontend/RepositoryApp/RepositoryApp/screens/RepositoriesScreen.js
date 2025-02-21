@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-const RepositoriesScreen = ({ route }) => {
-  const { token } = route.params;
+const RepositoriesScreen = () => {
   const [repositories, setRepositories] = useState([]);
 
   useEffect(() => {
     const fetchRepositories = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/repositories', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get('http://localhost:4000/repositories');
         setRepositories(response.data);
       } catch (error) {
         console.error('Failed to fetch repositories', error);
@@ -19,7 +16,7 @@ const RepositoriesScreen = ({ route }) => {
     };
 
     fetchRepositories();
-  }, [token]);
+  }, []);
 
   return (
     <View style={styles.container}>

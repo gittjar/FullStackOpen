@@ -8,9 +8,9 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/login', { username, password });
+      const response = await axios.post('http://localhost:4000/login', { username, password });
       const { accessToken } = response.data;
-      navigation.navigate('Repositories', { token: accessToken });
+      navigation.navigate('Home', { token: accessToken });
     } catch (error) {
       console.error('Login failed', error);
     }
