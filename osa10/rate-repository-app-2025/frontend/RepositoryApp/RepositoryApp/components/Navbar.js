@@ -1,15 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { Button, View, ActivityIndicator } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import AuthStorageContext from '../contexts/AuthStorageContext';
+import HomeScreen from '../screens/HomeScreen';
+import RepositoriesScreen from '../screens/RepositoriesScreen';
+import TimeScreen from '../screens/TimeScreen';
+
+const Tab = createMaterialTopTabNavigator();
 
 const Navbar = ({ navigation }) => {
   const authStorage = useContext(AuthStorageContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const token = await authStorage.getAccessToken();
-      setIsLoggedIn(!!token);
+      const storedToken = await authStorage.getAccessToken();
+      setIsLoggedIn(!!storedToken);
+      setToken(storedToken);
+      setLoading(false);
     };
 
     checkLoginStatus();
@@ -21,29 +31,29 @@ const Navbar = ({ navigation }) => {
     navigation.navigate('Login');
   };
 
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
   return (
-    <View style={styles.navbar}>
+    <Tab.Navigator>
+      {isLoggedIn && <Tab.Screen name="Home" component={HomeScreen} initialParams={{ token }} />}
+      <Tab.Screen name="Repositories" component={RepositoriesScreen} />
+      <Tab.Screen name="Time" component={TimeScreen} />
       {isLoggedIn ? (
-        <>
-          <Button title="Home" onPress={() => navigation.navigate('Home')} />
-          <Button title="Logout" onPress={handleLogout} />
-        </>
+        <Tab.Screen name="Logout" component={() => (
+          <View>
+            <Button title="Logout" onPress={handleLogout} />
+          </View>
+        )} />
       ) : (
-        <Button title="Login" onPress={() => navigation.navigate('Login')} />
+        <Tab.Screen name="Login" component={() => {
+          navigation.navigate('Login');
+          return null;
+        }} />
       )}
-      <Button title="Repositories" onPress={() => navigation.navigate('Repositories')} />
-      <Button title="Time" onPress={() => navigation.navigate('Time')} />
-    </View>
+    </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  navbar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-    backgroundColor: '#eee',
-  },
-});
 
 export default Navbar;

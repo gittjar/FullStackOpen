@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import axios from 'axios';
 import Config from '../components/Config';
+import AuthStorageContext from '../contexts/AuthStorageContext';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const authStorage = useContext(AuthStorageContext);
 
   const handleLogin = async () => {
     try {
@@ -15,7 +17,12 @@ const LoginScreen = ({ navigation }) => {
         const { accessToken } = response.data;
         setMessage('Login OK!');
         console.log('Token received:', accessToken); // Log the token
-        navigation.navigate('Home', { token: accessToken });
+        if (authStorage && authStorage.saveAccessToken) {
+          await authStorage.saveAccessToken(accessToken);
+          navigation.navigate('Home', { token: accessToken });
+        } else {
+          console.error('authStorage or saveAccessToken is undefined');
+        }
       } else {
         setMessage('Login failed: Invalid username or password');
       }
