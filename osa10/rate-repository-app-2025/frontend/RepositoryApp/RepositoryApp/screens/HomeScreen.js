@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import Config from '../components/Config';
-import theme from '../components/theme';
+import ConfirmationDialog from '../components/ConfirmationDialog';
 
 const styles = StyleSheet.create({
   container: {
@@ -89,6 +89,8 @@ const formatCount = (count) => {
 
 const HomeScreen = ({ route }) => {
   const [userData, setUserData] = useState([]);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [selectedRepo, setSelectedRepo] = useState(null);
   const token = route?.params?.token;
 
   const fetchUserData = async () => {
@@ -110,24 +112,38 @@ const HomeScreen = ({ route }) => {
     fetchUserData();
   }, [token]);
 
-  const handleDelete = async (repositoryId) => {
+  const handleDelete = async () => {
     try {
-      const response = await axios.delete(`${Config.baseURL}/likelist/${repositoryId}`, {
+      const response = await axios.delete(`${Config.baseURL}/likelist/${selectedRepo}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.status === 200) {
-        setUserData(prevData => prevData.filter(item => item.id !== repositoryId));
+        setUserData(prevData => prevData.filter(item => item.id !== selectedRepo));
       } else {
-        console.error('Failed to delete item, unexpected response:', response);
+        console.error('Failed to delete item');
       }
     } catch (error) {
       console.error('Failed to delete item', error);
+    } finally {
+      setConfirmVisible(false);
+      setSelectedRepo(null);
     }
+  };
+
+  const confirmDelete = (repositoryId) => {
+    setSelectedRepo(repositoryId);
+    setConfirmVisible(true);
   };
 
   return (
     <View style={styles.container}>
+      <ConfirmationDialog
+        visible={confirmVisible}
+        message="Are you sure you want to delete this repository?"
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmVisible(false)}
+      />
       {userData.length > 0 ? (
         <FlatList
           data={userData}
@@ -149,7 +165,7 @@ const HomeScreen = ({ route }) => {
                 <Text style={styles.count}>{formatCount(item.ratingAverage)} Rating</Text>
                 <Text style={styles.count}>{formatCount(item.reviewCount)} Reviews</Text>
               </View>
-              <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
+              <TouchableOpacity style={styles.deleteButton} onPress={() => confirmDelete(item.id)}>
                 <Text style={styles.deleteButtonText}>Delete</Text>
               </TouchableOpacity>
             </View>
