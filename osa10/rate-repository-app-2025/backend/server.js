@@ -86,6 +86,24 @@ app.get('/likelist', authenticateJWT, (req, res) => {
   res.json(likedRepositories);
 });
 
+app.delete('/likelist/:id', authenticateJWT, (req, res) => {
+  const userId = req.user.id;
+  const repositoryId = req.params.id; // The repo name like 'rails.rails'
+
+  console.log(`User ${userId} attempting to delete repository ${repositoryId}`);
+
+  if (!userLikelists[userId]) {
+    console.log('Likelist not found for user:', userId);
+    return res.status(404).json({ message: 'Likelist not found for user' });
+  }
+
+  userLikelists[userId] = userLikelists[userId].filter(repo => repo !== repositoryId);
+
+  console.log('Updated likelist for user:', userId, userLikelists[userId]);
+
+  res.status(200).json({ message: 'Repository removed from likelist', likelist: userLikelists[userId] });
+});
+
 // Use repository routes
 app.use('/repositories', repositoryRoutes);
 

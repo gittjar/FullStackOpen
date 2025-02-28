@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import Config from '../components/Config';
 import theme from '../components/theme';
@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-    fontFamily: theme.fonts.main,
   },
   separator: {
     height: 10,
@@ -70,48 +69,66 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
   },
+  deleteButton: {
+    marginTop: 10,
+    backgroundColor: '#ff0000',
+    padding: 10,
+    borderRadius: 5,
+  },
+  deleteButtonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const formatCount = (count) => {
-  if (count >= 1000) {
-    return (count / 1000).toFixed(1) + 'k';
-  }
-  return count;
+  return count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
 };
 
-const HomeScreen = ({ route, navigation }) => {
-  const [userData, setUserData] = useState(null);
+const HomeScreen = ({ route }) => {
+  const [userData, setUserData] = useState([]);
   const token = route?.params?.token;
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        if (!token) {
-          console.error('Token is missing');
-          return;
-        }
-
-        console.log('Token received in HomeScreen:', token); // Log the token
-
-        const response = await axios.get(`${Config.baseURL}/likelist`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUserData(response.data);
-      } catch (error) {
-        console.error('Failed to fetch user data', error);
+  const fetchUserData = async () => {
+    try {
+      if (!token) {
+        console.error('Token is missing');
+        return;
       }
-    };
+      const response = await axios.get(`${Config.baseURL}/likelist`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUserData(response.data);
+    } catch (error) {
+      console.error('Failed to fetch user data', error);
+    }
+  };
 
+  useEffect(() => {
     fetchUserData();
   }, [token]);
 
+  const handleDelete = async (repositoryId) => {
+    try {
+      const response = await axios.delete(`${Config.baseURL}/likelist/${repositoryId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.status === 200) {
+        setUserData(prevData => prevData.filter(item => item.id !== repositoryId));
+      } else {
+        console.error('Failed to delete item, unexpected response:', response);
+      }
+    } catch (error) {
+      console.error('Failed to delete item', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      {userData ? (
+      {userData.length > 0 ? (
         <FlatList
           data={userData}
           ItemSeparatorComponent={ItemSeparator}
@@ -132,6 +149,9 @@ const HomeScreen = ({ route, navigation }) => {
                 <Text style={styles.count}>{formatCount(item.ratingAverage)} Rating</Text>
                 <Text style={styles.count}>{formatCount(item.reviewCount)} Reviews</Text>
               </View>
+              <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
+                <Text style={styles.deleteButtonText}>Delete</Text>
+              </TouchableOpacity>
             </View>
           )}
         />
