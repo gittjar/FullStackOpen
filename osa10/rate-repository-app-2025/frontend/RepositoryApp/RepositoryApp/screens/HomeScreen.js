@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff0000',
     padding: 10,
     borderRadius: 5,
+    width: '30%',
   },
   deleteButtonText: {
     color: 'white',
@@ -91,6 +92,7 @@ const HomeScreen = ({ route }) => {
   const [userData, setUserData] = useState([]);
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState(null);
+  const [selectedRepoName, setSelectedRepoName] = useState('');
   const token = route?.params?.token;
 
   const fetchUserData = async () => {
@@ -128,11 +130,13 @@ const HomeScreen = ({ route }) => {
     } finally {
       setConfirmVisible(false);
       setSelectedRepo(null);
+      setSelectedRepoName('');
     }
   };
 
-  const confirmDelete = (repositoryId) => {
+  const confirmDelete = (repositoryId, repositoryName) => {
     setSelectedRepo(repositoryId);
+    setSelectedRepoName(repositoryName);
     setConfirmVisible(true);
   };
 
@@ -140,7 +144,7 @@ const HomeScreen = ({ route }) => {
     <View style={styles.container}>
       <ConfirmationDialog
         visible={confirmVisible}
-        message="Are you sure you want to delete this repository?"
+        message={`Are you sure you want to delete the repository "${selectedRepoName}"?`}
         onConfirm={handleDelete}
         onCancel={() => setConfirmVisible(false)}
       />
@@ -165,7 +169,7 @@ const HomeScreen = ({ route }) => {
                 <Text style={styles.count}>{formatCount(item.ratingAverage)} Rating</Text>
                 <Text style={styles.count}>{formatCount(item.reviewCount)} Reviews</Text>
               </View>
-              <TouchableOpacity style={styles.deleteButton} onPress={() => confirmDelete(item.id)}>
+              <TouchableOpacity style={styles.deleteButton} onPress={() => confirmDelete(item.id, item.fullName)}>
                 <Text style={styles.deleteButtonText}>Delete</Text>
               </TouchableOpacity>
             </View>

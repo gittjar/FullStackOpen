@@ -9,6 +9,7 @@ const ConfirmationDialog = ({ visible, message, onConfirm, onCancel }) => {
       <View style={styles.overlay}>
         <View style={styles.dialog}>
           <Text style={styles.message}>{message}</Text>
+
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.button} onPress={onCancel}>
               <Text style={styles.buttonText}>No</Text>
