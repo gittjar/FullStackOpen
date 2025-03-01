@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react
 import axios from 'axios';
 import Config from '../components/Config';
 import ConfirmationDialog from '../components/ConfirmationDialog';
+import Notification from '../components/Notification';
 
 const styles = StyleSheet.create({
   container: {
@@ -74,7 +75,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff0000',
     padding: 10,
     borderRadius: 5,
-    width: '30%',
   },
   deleteButtonText: {
     color: 'white',
@@ -93,6 +93,8 @@ const HomeScreen = ({ route }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState(null);
   const [selectedRepoName, setSelectedRepoName] = useState('');
+  const [notificationVisible, setNotificationVisible] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
   const token = route?.params?.token;
 
   const fetchUserData = async () => {
@@ -122,6 +124,8 @@ const HomeScreen = ({ route }) => {
 
       if (response.status === 200) {
         setUserData(prevData => prevData.filter(item => item.id !== selectedRepo));
+        setNotificationMessage(`You deleted "${selectedRepoName}" successfully.`);
+        setNotificationVisible(true);
       } else {
         console.error('Failed to delete item');
       }
@@ -142,6 +146,11 @@ const HomeScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <Notification
+        message={notificationMessage}
+        visible={notificationVisible}
+        onHide={() => setNotificationVisible(false)}
+      />
       <ConfirmationDialog
         visible={confirmVisible}
         message={`Are you sure you want to delete the repository "${selectedRepoName}"?`}
