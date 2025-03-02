@@ -43,6 +43,7 @@ const Navbar = ({ navigation }) => {
       {isLoggedIn ? (
         <Tab.Screen name="Logout" component={() => (
           <View>
+
             <Button title="Logout" onPress={handleLogout} />
           </View>
         )} />
@@ -55,5 +56,7 @@ const Navbar = ({ navigation }) => {
     </Tab.Navigator>
   );
 };
+
+
 
 export default Navbar;
