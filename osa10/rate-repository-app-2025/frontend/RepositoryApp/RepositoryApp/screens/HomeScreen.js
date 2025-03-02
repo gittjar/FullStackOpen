@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 import Config from '../components/Config';
 import ConfirmationDialog from '../components/ConfirmationDialog';
 import Notification from '../components/Notification';
@@ -97,7 +98,7 @@ const HomeScreen = ({ route }) => {
   const [notificationMessage, setNotificationMessage] = useState('');
   const token = route?.params?.token;
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       if (!token) {
         console.error('Token is missing');
@@ -110,11 +111,13 @@ const HomeScreen = ({ route }) => {
     } catch (error) {
       console.error('Failed to fetch user data', error);
     }
-  };
-
-  useEffect(() => {
-    fetchUserData();
   }, [token]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserData();
+    }, [fetchUserData])
+  );
 
   const handleDelete = async () => {
     try {
