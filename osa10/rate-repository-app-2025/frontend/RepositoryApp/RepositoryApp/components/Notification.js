@@ -29,18 +29,22 @@ const Notification = ({ message, visible, onHide }) => {
   if (!visible) return null;
 
   return (
-    <Animated.View style={[styles.container, { opacity }]}>
-      <Text style={styles.message}>{message}</Text>
-    </Animated.View>
+    <View style={styles.overlay}>
+      <Animated.View style={[styles.container, { opacity }]}>
+        <Text style={styles.message}>{message}</Text>
+      </Animated.View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
   container: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    right: 20,
     backgroundColor: '#4CAF50',
     paddingVertical: 15,
     paddingHorizontal: 25,
@@ -51,7 +55,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
-    zIndex: 1000,
   },
   message: {
     color: 'white',

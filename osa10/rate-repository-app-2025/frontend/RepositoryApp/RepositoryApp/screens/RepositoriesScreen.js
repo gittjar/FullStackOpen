@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import theme from '../components/theme';
 import Config from '../components/Config';
+import Notification from '../components/Notification';
 
 const styles = StyleSheet.create({
   container: {
@@ -88,6 +89,7 @@ const formatCount = (count) => {
 const RepositoriesScreen = () => {
   const [repositories, setRepositories] = useState([]);
   const [likelist, setLikelist] = useState([]);
+  const [notification, setNotification] = useState({ message: '', visible: false });
 
   const fetchLikelist = useCallback(async () => {
     try {
@@ -132,7 +134,7 @@ const RepositoriesScreen = () => {
         }
       );
       setLikelist((prevLikelist) => [...prevLikelist, repositoryId]);
-      Alert.alert('Success', response.data.message);
+      setNotification({ message: response.data.message, visible: true });
     } catch (error) {
       console.error('Failed to add repository to likelist', error);
       Alert.alert('Error', 'Failed to add repository to likelist');
@@ -148,7 +150,7 @@ const RepositoriesScreen = () => {
         },
       });
       setLikelist((prevLikelist) => prevLikelist.filter((id) => id !== repositoryId));
-      Alert.alert('Success', response.data.message);
+      setNotification({ message: response.data.message, visible: true });
     } catch (error) {
       console.error('Failed to remove repository from likelist', error);
       Alert.alert('Error', 'Failed to remove repository from likelist');
@@ -191,6 +193,11 @@ const RepositoriesScreen = () => {
             </View>
           </View>
         )}
+      />
+      <Notification
+        message={notification.message}
+        visible={notification.visible}
+        onHide={() => setNotification({ ...notification, visible: false })}
       />
     </View>
   );
