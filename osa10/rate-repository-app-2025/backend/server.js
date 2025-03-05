@@ -6,6 +6,7 @@ const cors = require('cors');
 const fs = require('fs');
 const authenticateJWT = require('./middleware/authenticateJWT');
 const repositoryRoutes = require('./routes/repositories');
+const moment = require('moment-timezone');
 
 dotenv.config();
 
@@ -24,8 +25,9 @@ const users = [
 let repositories = JSON.parse(fs.readFileSync('repositories.json', 'utf8'));
 console.log('Loaded repositories:', repositories);
 
-// Local time
+// Local time with timezone
 app.get('/time', (req, res) => {
+  const { timezone } = req.query;
   const options = { 
     weekday: 'long', 
     year: 'numeric', 
@@ -35,8 +37,8 @@ app.get('/time', (req, res) => {
     minute: '2-digit', 
     second: '2-digit' 
   };
-  const localTime = new Date().toLocaleString('fi-FI', options);
-  res.send(localTime);
+  const localTime = moment().tz(timezone).format('LLLL');
+  res.json({ time: localTime });
 });
 
 // Login route
